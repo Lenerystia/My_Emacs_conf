@@ -75,6 +75,8 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; Package's
+
 (use-package neotree
   :config
   (setq neo-smart-open t
@@ -94,8 +96,26 @@
 
 (use-package minimap)
 (use-package multiple-cursors)
-(use-package org-roam)
 
+;; Org-roam
+
+(use-package org-roam
+  :custom(org-roam-directory "~/Second_Brain/org")
+  :bind (("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n l" . org-roam-buffer-toggle)))
+
+;;(use-package org-multi-wiki
+;; :config
+;;  (org-multi-wiki-global-mode 1)
+;;  :custom
+;;  (org-multi-wiki-namespace-list '((personal "~/Second_Brain/org/personal/")
+;;  (ops "~/Second_Brain/org/ops/")
+;;  (programming "~/Second_Brain/org/programming/")))
+  ;; Namespace of a wiki
+  ;; (org-multi-wiki-default-namespace 'personal))
+
+(use-package helm-org-multi-wiki)
 ;;Org roam config:
 ;; (setq org-roam-directory (file-truename "c:\Users\marle\Desktop\NextCloud_synch\Second_Brain\org-roam")
 ;; (global-set-key (kbd "C-c n f") 'org-roam-node-find)
@@ -114,3 +134,24 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+
+;;Themes
+
+;; Ulubione
+;;(setq doom-theme 'doom-dracula)
+;;(setq doom-theme 'doom-acario-light)
+;;(setq doom-theme 'doom-acario-dark)
+;;(setq doom-theme 'doom-tokyo-night)
+;;(setq doom-theme 'doom-shades-of-purple)
+
+(global-auto-revert-mode 1)
+
+;; Export org to special directory
+
+(defun org-export-output-file-name-modified (orig-fun extension &optional subtreep pub-dir)
+  (unless pub-dir
+    (setq pub-dir "~/Second_Brain/exported-org-files")
+    (unless (file-directory-p pub-dir)
+      (make-directory pub-dir)))
+  (apply orig-fun extension subtreep pub-dir nil))
+(advice-add 'org-export-output-file-name :around #'org-export-output-file-name-modified)

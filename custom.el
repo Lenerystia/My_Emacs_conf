@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(auctex org-roam-ui vterm org-roam org-brain nerd-icons neotree multiple-cursors minimap all-the-icons)))
+   '(doom-themes helm-org-multi-wiki org-multi-wiki minimap multiple-cursors neotree org-roam-ui org-roam)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
