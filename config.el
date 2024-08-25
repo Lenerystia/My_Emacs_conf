@@ -115,7 +115,7 @@
   ;; Namespace of a wiki
   ;; (org-multi-wiki-default-namespace 'personal))
 
-(use-package helm-org-multi-wiki)
+;;(use-package helm-org-multi-wiki)
 ;;Org roam config:
 ;; (setq org-roam-directory (file-truename "c:\Users\marle\Desktop\NextCloud_synch\Second_Brain\org-roam")
 ;; (global-set-key (kbd "C-c n f") 'org-roam-node-find)
@@ -138,7 +138,7 @@
 ;;Themes
 
 ;; Ulubione
-;;(setq doom-theme 'doom-dracula)
+(setq doom-theme 'doom-dracula)
 ;;(setq doom-theme 'doom-acario-light)
 ;;(setq doom-theme 'doom-acario-dark)
 ;;(setq doom-theme 'doom-tokyo-night)
