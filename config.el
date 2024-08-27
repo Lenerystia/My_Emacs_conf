@@ -77,22 +77,22 @@
 
 ;; Package's
 
-(use-package neotree
-  :config
-  (setq neo-smart-open t
-        neo-show-hidden-files t
-        neo-window-width 35
-        neo-window-fixed-size nil
-        inhibit-compacting-font-caches t
-        projectile-switch-project-action 'neotree-projectile-action)
-        ;; truncate long file names in neotree
-        (add-hook 'neo-after-create-hook
-           #'(lambda (_)
-               (with-current-buffer (get-buffer neo-buffer-name)
-                 (setq truncate-lines t)
-                 (setq word-wrap nil)
-                 (make-local-variable 'auto-hscroll-mode)
-                 (setq auto-hscroll-mode nil)))))
+;; (use-package neotree
+;;   :config
+;;   (setq neo-smart-open t
+;;         neo-show-hidden-files t
+;;         neo-window-width 35
+;;         neo-window-fixed-size nil
+;;         inhibit-compacting-font-caches t
+;;         projectile-switch-project-action 'neotree-projectile-action)
+;;         ;; truncate long file names in neotree
+;;         (add-hook 'neo-after-create-hook
+;;            #'(lambda (_)
+;;                (with-current-buffer (get-buffer neo-buffer-name)
+;;                  (setq truncate-lines t)
+;;                  (setq word-wrap nil)
+;;                  (make-local-variable 'auto-hscroll-mode)
+;;                  (setq auto-hscroll-mode nil)))))
 
 (use-package minimap)
 (use-package multiple-cursors)
@@ -104,6 +104,13 @@
   :bind (("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n l" . org-roam-buffer-toggle)))
+
+(defun org-roam-node-insert-immediate (arg &rest args)
+  (interactive "P")
+  (let ((args (cons arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
 
 ;;(use-package org-multi-wiki
 ;; :config
@@ -138,7 +145,7 @@
 ;;Themes
 
 ;; Ulubione
-;;(setq doom-theme 'doom-dracula)
+(setq doom-theme 'doom-dracula)
 ;;(setq doom-theme 'doom-acario-light)
 ;;(setq doom-theme 'doom-acario-dark)
 ;;(setq doom-theme 'doom-tokyo-night)
