@@ -162,3 +162,6 @@
       (make-directory pub-dir)))
   (apply orig-fun extension subtreep pub-dir nil))
 (advice-add 'org-export-output-file-name :around #'org-export-output-file-name-modified)
+
+
+(setq display-line-numbers-type 'relative)
