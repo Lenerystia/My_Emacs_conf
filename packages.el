@@ -50,3 +50,4 @@
 ;; (unpin! t)
 (package! minimap)
 (package! org-roam)
+(package! lorem-ipsum)
