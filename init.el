@@ -212,7 +212,6 @@
             (add-hook 'before-save-hook 'my-org-insert-headers nil 'local)))
 
 
-
 ;;(defun my-replace-double-hyphen-with-em-dash ()
 ;;  "Replace '--' with an em-dash '—' after typing."
 ;;  (when (and (eq (char-before) ?-) ; Check if the last character is '-'

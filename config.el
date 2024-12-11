@@ -40,7 +40,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Second_Brain/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -123,7 +123,7 @@
   ;; (org-multi-wiki-default-namespace 'personal))
 
 ;;(use-package helm-org-multi-wiki)
-;;Org roam config:
+;Org roam config:
 ;; (setq org-roam-directory (file-truename "c:\Users\marle\Desktop\NextCloud_synch\Second_Brain\org-roam")
 ;; (global-set-key (kbd "C-c n f") 'org-roam-node-find)
 ;; (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
@@ -167,11 +167,68 @@
 (setq display-line-numbers-type 'relative)
 
 ;; Keybinds
-(global-set-key (kbd "C-:") 'avy-goto-char)
-(global-set-key (kbd "C-'") 'avy-goto-char-2)
+;; AVY
+(global-set-key (kbd "M-g s") 'avy-goto-char)
+(global-set-key (kbd "M-g g") 'avy-goto-char-timer)
 (global-set-key (kbd "M-g f") 'avy-goto-line)
 (global-set-key (kbd "M-g w") 'avy-goto-word-1)
 (global-set-key (kbd "M-g e") 'avy-goto-word-0)
 
-(avy-setup-default)
-(global-set-key (kbd "C-c C-j") 'avy-resume)
+;;Evil
+(map! "C-g C-j" #'evil-next-visual-line)
+(map! "C-g C-k" #'evil-previous-visual-line)
+
+
+;; kill ring
+(map! :leader
+      :desc "Browse kill ring" "y b" #'browse-kill-ring)
+
+(map! :leader
+      :desc "Consult yank from kill ring" "y y" #'consult-yank-from-kill-ring)
+
+;;ORG-ROAM
+(map! :leader
+      :desc "Org-roam db sync" "o s" #'org-roam-db-sync)
+
+
+(after! org
+  (setq org-agenda-files '("~/agenda.org")))
+
+(setq
+   ;; org-fancy-priorities-list '("[A]" "[B]" "[C]")
+   ;; org-fancy-priorities-list '("❗" "[B]" "[C]")
+   org-fancy-priorities-list '("🟥" "🟧" "🟨")
+   org-priority-faces
+   '((?A :foreground "#ff6c6b" :weight bold)
+     (?B :foreground "#98be65" :weight bold)
+     (?C :foreground "#c678dd" :weight bold))
+   org-agenda-block-separator 8411)
+
+(setq org-agenda-custom-commands
+      '(("v" "A better agenda view"
+         ((tags "PRIORITY=\"A\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "High-priority unfinished tasks:")))
+          (tags "PRIORITY=\"B\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Medium-priority unfinished tasks:")))
+          (tags "PRIORITY=\"C\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Low-priority unfinished tasks:")))
+          (tags "nearest"
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Tasks marked with customtag:")))
+
+          (agenda "")
+          (alltodo "")))))
+
+;;(after! org
+ ;; (add-to-list 'org-todo-keywords 'type '("WORK" . "a") t))
+;;(after! org
+;; (setq org-todo-keywords
+;;     '((sequence "[ ](t)" "TODO" "AUCTANE(a)" "UNIVERSITY(u)" "WAIT(w)" "HOLD(h)" "OKAY(o)" "YES(y)" "NO(n)" "[?](W)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE(d)" "[X](D)"))))
+(after! org
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "AUCTANE(a)" "UNIVERSITY(u)" "PSYCHA(p)" "QUESTIONS(q)" "STORY(.)" "NARZEKANIE(e)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE" )
+          (sequence "[ ]" "[-]" "[?]" "|" "[X]")
+          (sequence "OKAY" "NO" "|" "YES"))))

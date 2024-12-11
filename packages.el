@@ -51,3 +51,5 @@
 (package! minimap)
 (package! org-roam)
 (package! lorem-ipsum)
+(package! treemacs)
+(package! browse-kill-ring)
