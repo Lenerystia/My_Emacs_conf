@@ -99,7 +99,7 @@
 ;; Org-roam
 
 (use-package org-roam
-  :custom(org-roam-directory "~/Second_Brain/org")
+  :custom(org-roam-directory "~/org")
   :bind (("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n l" . org-roam-buffer-toggle)))
