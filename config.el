@@ -94,8 +94,7 @@
 ;;                  (make-local-variable 'auto-hscroll-mode)
 ;;                  (setq auto-hscroll-mode nil)))))
 
-(use-package minimap)
-(use-package multiple-cursors)
+(add-to-list 'default-frame-alist '(undecorated . t))
 
 ;; Org-roam
 
