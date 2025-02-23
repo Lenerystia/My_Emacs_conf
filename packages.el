@@ -60,3 +60,5 @@
 (package! minimap)
 (package! lorem-ipsum)
 (package! auctex)
+;;(package! auto-correct)
+;;(package! flyspell-correct)

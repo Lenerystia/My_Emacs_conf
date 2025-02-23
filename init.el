@@ -196,20 +196,20 @@
 ;; Automatyczne wyświetlanie obrazów inline w Org mode
 (add-hook 'org-mode-hook 'org-display-inline-images)
 
-(defun my-org-insert-headers ()
-  "Insert custom headers at the beginning of new Org files."
-  (when (and (eq major-mode 'org-mode) (zerop (buffer-size)))
-    (goto-char (point-min))
-    (insert "#+TITLE: \n")
-    (insert "#+latex_header: \\hypersetup{colorlinks=true, linkcolor=black}\n")
-    (insert "#+LATEX_HEADER: \\usepackage{parskip}\n")
-    (insert "#+LATEX_HEADER: \\setlength{\\parskip}{1em}\n")
-    (insert "#+LATEX_HEADER: \\setlength{\\parindent}{0pt}\n")
-    (insert "#+LATEX_HEADER: \\usepackage[margin=1in]{geometry}\n")))
+;; (defun my-org-insert-headers ()
+;;   "Insert custom headers at the beginning of new Org files."
+;;   (when (and (eq major-mode 'org-mode) (zerop (buffer-size)))
+;;     (goto-char (point-min))
+;;     (insert "#+TITLE: \n")
+;;     (insert "#+latex_header: \\hypersetup{colorlinks=true, linkcolor=black}\n")
+;;     (insert "#+LATEX_HEADER: \\usepackage{parskip}\n")
+;;     (insert "#+LATEX_HEADER: \\setlength{\\parskip}{1em}\n")
+;;     (insert "#+LATEX_HEADER: \\setlength{\\parindent}{0pt}\n")
+;;     (insert "#+LATEX_HEADER: \\usepackage[margin=1in]{geometry}\n")))
 
-(add-hook 'org-mode-hook
-          (lambda ()
-            (add-hook 'before-save-hook 'my-org-insert-headers nil 'local)))
+;; (add-hook 'org-mode-hook
+;;           (lambda ()
+;;             (add-hook 'before-save-hook 'my-org-insert-headers nil 'local)))
 
 
 ;;(defun my-replace-double-hyphen-with-em-dash ()

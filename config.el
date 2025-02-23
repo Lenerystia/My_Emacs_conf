@@ -111,6 +111,23 @@
                                                   '(:immediate-finish t)))))
     (apply #'org-roam-node-insert args)))
 
+(defun my/org-mode-setup ()
+  "Custom configurations for org-mode."
+  (when (and buffer-file-name
+             (string= (file-name-extension buffer-file-name) "org")
+             (= (point-max) (point-min))) ;; Ensure the file is empty
+    (let ((file-title (file-name-base buffer-file-name)))
+      (insert (format "#+TITLE: %s\n" file-title))
+      (insert "#+author: Marlena\n")
+      (insert "#+latex_header: \\hypersetup{colorlinks=true, linkcolor=black}\n")
+      (insert "#+latex_header: \\usepackage{parskip}\n")
+      (insert "#+latex_header: \\setlength{\\parskip}{1em}\n")
+      (insert "#+latex_header: \\setlength{\\parindent}{0pt}\n")
+      (insert "#+latex_header: \\usepackage[margin=1in]{geometry}\n")
+      (insert "\n"))))
+
+(add-hook 'org-mode-hook #'my/org-mode-setup)
+
 ;;(use-package org-multi-wiki
 ;; :config
 ;;  (org-multi-wiki-global-mode 1)
@@ -231,3 +248,31 @@
         '((sequence "TODO(t)" "AUCTANE(a)" "UNIVERSITY(u)" "PSYCHA(p)" "QUESTIONS(q)" "STORY(.)" "NARZEKANIE(e)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE" )
           (sequence "[ ]" "[-]" "[?]" "|" "[X]")
           (sequence "OKAY" "NO" "|" "YES"))))
+
+;; (use-package! flyspell
+;;   :hook ((text-mode . flyspell-mode)
+;;         (prog-mode . flyspell-prog-mode))
+;;   :config
+;;   (setq ispell-program-name "aspell")
+;;   (setq ispell-dictionary "en")
+;;   (ispell-change-dictionary "en"))
+
+;; (use-package! flyspell-correct
+;;   :after flyspell
+;;   :bind (:map flyspell-mode-map
+;;               ("C-;" . flyspell-correct-wrapper)))
+
+;; (use-package! flyspell-correct-ivy
+;;   :after flyspell-correct
+;;   :config
+;;   (setq flyspell-correct-interface #'flyspell-correct-ivy))
+
+;; (defun my/set-flyspell-dictionary ()
+;;   "Set the dictionary for Flyspell based on the buffer's language."
+;;   (interactive)
+;;   (let ((lang (or (and (boundp 'lang) lang)
+;;                   (read-string "Language (en/pl): "))))
+;;     (ispell-change-dictionary lang)
+;;     (message "Flyspell dictionary set to %s" lang)))
+
+;; (add-hook 'org-mode-hook #'my/set-flyspell-dictionary)
