@@ -243,11 +243,30 @@
 ;;(after! org
 ;; (setq org-todo-keywords
 ;;     '((sequence "[ ](t)" "TODO" "AUCTANE(a)" "UNIVERSITY(u)" "WAIT(w)" "HOLD(h)" "OKAY(o)" "YES(y)" "NO(n)" "[?](W)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE(d)" "[X](D)"))))
+
+
+;; (after! org
+;;   (setq org-todo-keywords
+;;         '((sequence "CODE(c)" "HOMELAB(l)" "TODO(t)" "AUCTANE(a)" "UNIVERSITY(u)" "PSYCHA(p)" "QUESTIONS(q)" "STORY(.)" "NARZEKANIE(e)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE" )
+;;           (sequence "[ ]" "[-]" "[?]" "|" "[X]")
+;;           (sequence "OKAY" "NO" "|" "YES"))))
+
 (after! org
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "AUCTANE(a)" "UNIVERSITY(u)" "PSYCHA(p)" "QUESTIONS(q)" "STORY(.)" "NARZEKANIE(e)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE" )
+        '((sequence "CODE(c)" "HOMELAB(l)" "TODO(t)" "AUCTANE(a)" "UNIVERSITY(u)" "PSYCHA(p)" "QUESTIONS(q)" "STORY(.)" "NARZEKANIE(e)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE" )
           (sequence "[ ]" "[-]" "[?]" "|" "[X]")
-          (sequence "OKAY" "NO" "|" "YES"))))
+          (sequence "OKAY" "NO" "|" "YES")))
+
+  (setq org-todo-keyword-faces
+        '(("CODE" . "brown")
+          ("HOMELAB" . "orange")
+          ("AUCTANE" . "blue")
+          ("UNIVERSITY" . "purple")
+          ("PSYCHA" . "white")
+          ("QUESTIONS" . "black")
+          ("NARZEKANIE" . "red")
+          )))
+
 
 ;; (use-package! flyspell
 ;;   :hook ((text-mode . flyspell-mode)
