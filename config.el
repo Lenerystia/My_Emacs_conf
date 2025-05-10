@@ -40,7 +40,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Second_Brain/")
+(setq org-directory "~/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -75,90 +75,26 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; Package's
+(global-auto-revert-mode 1)
+(setq display-line-numbers-type 'relative)
 
-;; (use-package neotree
-;;   :config
-;;   (setq neo-smart-open t
-;;         neo-show-hidden-files t
-;;         neo-window-width 35
-;;         neo-window-fixed-size nil
-;;         inhibit-compacting-font-caches t
-;;         projectile-switch-project-action 'neotree-projectile-action)
-;;         ;; truncate long file names in neotree
-;;         (add-hook 'neo-after-create-hook
-;;            #'(lambda (_)
-;;                (with-current-buffer (get-buffer neo-buffer-name)
-;;                  (setq truncate-lines t)
-;;                  (setq word-wrap nil)
-;;                  (make-local-variable 'auto-hscroll-mode)
-;;                  (setq auto-hscroll-mode nil)))))
+(after! org
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "MAIL(m)" "CODE(c)" "HOMELAB(l)" "AUCTANE(a)" "UNIVERSITY(u)" "PSYCHA(p)" "QUESTIONS(q)" "STORY(.)" "NARZEKANIE(e)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE" )
+          (sequence "[ ]" "[-]" "[?]" "|" "[X]")
+          (sequence "OKAY" "NO" "|" "YES")))
 
-(add-to-list 'default-frame-alist '(undecorated . t))
+  (setq org-todo-keyword-faces
+        '(("CODE" . "brown")
+          ("HOMELAB" . "orange")
+          ("AUCTANE" . "blue")
+          ("UNIVERSITY" . "purple")
+          ("PSYCHA" . "white")
+          ("QUESTIONS" . "black")
+          ("NARZEKANIE" . "red")
+          ("MAIL" . "dark green")
+          )))
 
-;; Org-roam
-
-(use-package org-roam
-  :custom(org-roam-directory "~/org")
-  :bind (("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n l" . org-roam-buffer-toggle)))
-
-(defun org-roam-node-insert-immediate (arg &rest args)
-  (interactive "P")
-  (let ((args (cons arg args))
-        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
-                                                  '(:immediate-finish t)))))
-    (apply #'org-roam-node-insert args)))
-
-(defun my/org-mode-setup ()
-  "Custom configurations for org-mode."
-  (when (and buffer-file-name
-             (string= (file-name-extension buffer-file-name) "org")
-             (= (point-max) (point-min))) ;; Ensure the file is empty
-    (let ((file-title (file-name-base buffer-file-name)))
-      (insert (format "#+TITLE: %s\n" file-title))
-      (insert "#+author: Marlena\n")
-      (insert "#+latex_header: \\hypersetup{colorlinks=true, linkcolor=black}\n")
-      (insert "#+latex_header: \\usepackage{parskip}\n")
-      (insert "#+latex_header: \\setlength{\\parskip}{1em}\n")
-      (insert "#+latex_header: \\setlength{\\parindent}{0pt}\n")
-      (insert "#+latex_header: \\usepackage[margin=1in]{geometry}\n")
-      (insert "\n"))))
-
-(add-hook 'org-mode-hook #'my/org-mode-setup)
-
-;;(use-package org-multi-wiki
-;; :config
-;;  (org-multi-wiki-global-mode 1)
-;;  :custom
-;;  (org-multi-wiki-namespace-list '((personal "~/Second_Brain/org/personal/")
-;;  (ops "~/Second_Brain/org/ops/")
-;;  (programming "~/Second_Brain/org/programming/")))
-  ;; Namespace of a wiki
-  ;; (org-multi-wiki-default-namespace 'personal))
-
-;;(use-package helm-org-multi-wiki)
-;Org roam config:
-;; (setq org-roam-directory (file-truename "c:\Users\marle\Desktop\NextCloud_synch\Second_Brain\org-roam")
-;; (global-set-key (kbd "C-c n f") 'org-roam-node-find)
-;; (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
-(use-package! websocket
-    :after org-roam)
-
-(use-package! org-roam-ui
-    :after org-roam ;; or :after org
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-;;  :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
-
-;;Themes
 
 ;; Ulubione
 (setq doom-theme 'doom-dracula)
@@ -167,20 +103,8 @@
 ;;(setq doom-theme 'doom-tokyo-night)
 ;;(setq doom-theme 'doom-shades-of-purple)
 
-(global-auto-revert-mode 1)
-
-;; Export org to special directory
-
-(defun org-export-output-file-name-modified (orig-fun extension &optional subtreep pub-dir)
-  (unless pub-dir
-    (setq pub-dir "~/Second_Brain/exported-org-files")
-    (unless (file-directory-p pub-dir)
-      (make-directory pub-dir)))
-  (apply orig-fun extension subtreep pub-dir nil))
-(advice-add 'org-export-output-file-name :around #'org-export-output-file-name-modified)
 
 
-(setq display-line-numbers-type 'relative)
 
 ;; Keybinds
 ;; AVY
@@ -189,11 +113,6 @@
 (global-set-key (kbd "M-g f") 'avy-goto-line)
 (global-set-key (kbd "M-g w") 'avy-goto-word-1)
 (global-set-key (kbd "M-g e") 'avy-goto-word-0)
-
-;;Evil
-(map! "C-g C-j" #'evil-next-visual-line)
-(map! "C-g C-k" #'evil-previous-visual-line)
-
 
 ;; kill ring
 (map! :leader
@@ -207,8 +126,24 @@
       :desc "Org-roam db sync" "o s" #'org-roam-db-sync)
 
 
+;; Org-roam
+
+(use-package org-roam
+  :custom(org-roam-directory "z:/org")
+  :bind (("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n l" . org-roam-buffer-toggle)))
+
+(defun org-roam-node-insert-immediate (arg &rest args)
+  (interactive "P")
+  (let ((args (cons arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
+
+
 (after! org
-  (setq org-agenda-files '("~/agenda.org")))
+  (setq org-agenda-files '("~/OmniBrain/Agenda/agenda.org")))
 
 (setq
    ;; org-fancy-priorities-list '("[A]" "[B]" "[C]")
@@ -238,60 +173,38 @@
           (agenda "")
           (alltodo "")))))
 
-;;(after! org
- ;; (add-to-list 'org-todo-keywords 'type '("WORK" . "a") t))
-;;(after! org
-;; (setq org-todo-keywords
-;;     '((sequence "[ ](t)" "TODO" "AUCTANE(a)" "UNIVERSITY(u)" "WAIT(w)" "HOLD(h)" "OKAY(o)" "YES(y)" "NO(n)" "[?](W)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE(d)" "[X](D)"))))
+
+(set-face-attribute 'default nil :height 240)
+
+;;(setq-default buffer-file-coding-system 'dos)
+;;(setq inhibit-eol-conversion t)
+;;
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (setq-default buffer-file-coding-system 'utf-8-unix)
+
+;; (prefer-coding-system 'utf-8-unix)
+
+(defun hide-ctrl-M ()
+  (interactive)
+  (setq-local buffer-display-table (make-display-table))
+  (aset buffer-display-table 13 []))  ; ASCII 13 = ^M
+
+(add-hook 'org-mode-hook #'hide-ctrl-M)
 
 
-;; (after! org
-;;   (setq org-todo-keywords
-;;         '((sequence "CODE(c)" "HOMELAB(l)" "TODO(t)" "AUCTANE(a)" "UNIVERSITY(u)" "PSYCHA(p)" "QUESTIONS(q)" "STORY(.)" "NARZEKANIE(e)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE" )
-;;           (sequence "[ ]" "[-]" "[?]" "|" "[X]")
-;;           (sequence "OKAY" "NO" "|" "YES"))))
-
-(after! org
-  (setq org-todo-keywords
-        '((sequence "CODE(c)" "HOMELAB(l)" "TODO(t)" "AUCTANE(a)" "UNIVERSITY(u)" "PSYCHA(p)" "QUESTIONS(q)" "STORY(.)" "NARZEKANIE(e)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "STRT(s)" "LOOP(r)" "PROJ(p)" "KILL(k)" "|" "DONE" )
-          (sequence "[ ]" "[-]" "[?]" "|" "[X]")
-          (sequence "OKAY" "NO" "|" "YES")))
-
-  (setq org-todo-keyword-faces
-        '(("CODE" . "brown")
-          ("HOMELAB" . "orange")
-          ("AUCTANE" . "blue")
-          ("UNIVERSITY" . "purple")
-          ("PSYCHA" . "white")
-          ("QUESTIONS" . "black")
-          ("NARZEKANIE" . "red")
-          )))
-
-
-;; (use-package! flyspell
-;;   :hook ((text-mode . flyspell-mode)
-;;         (prog-mode . flyspell-prog-mode))
+;; (use-package neotree
 ;;   :config
-;;   (setq ispell-program-name "aspell")
-;;   (setq ispell-dictionary "en")
-;;   (ispell-change-dictionary "en"))
-
-;; (use-package! flyspell-correct
-;;   :after flyspell
-;;   :bind (:map flyspell-mode-map
-;;               ("C-;" . flyspell-correct-wrapper)))
-
-;; (use-package! flyspell-correct-ivy
-;;   :after flyspell-correct
-;;   :config
-;;   (setq flyspell-correct-interface #'flyspell-correct-ivy))
-
-;; (defun my/set-flyspell-dictionary ()
-;;   "Set the dictionary for Flyspell based on the buffer's language."
-;;   (interactive)
-;;   (let ((lang (or (and (boundp 'lang) lang)
-;;                   (read-string "Language (en/pl): "))))
-;;     (ispell-change-dictionary lang)
-;;     (message "Flyspell dictionary set to %s" lang)))
-
-;; (add-hook 'org-mode-hook #'my/set-flyspell-dictionary)
+;;   (setq neo-smart-open t
+;;         neo-show-hidden-files t
+;;         neo-window-width 35
+;;         neo-window-fixed-size nil
+;;         inhibit-compacting-font-caches t
+;;         projectile-switch-project-action 'neotree-projectile-action)
+;;         ;; truncate long file names in neotree
+;;         (add-hook 'neo-after-create-hook
+;;            #'(lambda (_)
+;;                (with-current-buffer (get-buffer neo-buffer-name)
+;;                  (setq truncate-lines t)
+;;                  (setq word-wrap nil)
+;;                  (make-local-variable 'auto-hscroll-mode)
+;;                  (setq auto-hscroll-mode nil)))))
